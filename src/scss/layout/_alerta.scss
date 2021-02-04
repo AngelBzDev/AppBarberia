@@ -1,0 +1,15 @@
+.alerta{
+   margin-top: $separacion / 2;
+   text-transform: uppercase;
+   padding: 1rem;
+   border-radius: 1rem;
+   text-align: center;
+   &.error{
+      background-color: #E70707;
+      color: $blanco;
+   }
+   &.nice{
+      background-color: #0bde00;
+      color: $blanco;
+   }
+}

@@ -1,0 +1,37 @@
+.tabs{
+   @include tablet{
+      @include grid(3, 2rem);
+   }
+   button{
+      background-color: $blanco;
+      width: 100%;
+      margin-bottom: 2rem;
+      font-size: 1.7rem;
+      font-weight: $bold;
+      padding: 1rem;
+      text-align: center;
+      text-transform: capitalize;
+      border: none;
+      border-radius: 1rem;
+
+      &:last-of-type{
+         margin-bottom: 0;
+      }
+
+      @include tablet{
+         margin-bottom: 0;
+      }
+
+      &.actual{
+         background-color: $azul;
+         color: $blanco;
+      }
+
+      &:hover{
+         cursor: pointer;
+      }
+      &:focus{
+         outline: none;
+      }
+   }
+}
