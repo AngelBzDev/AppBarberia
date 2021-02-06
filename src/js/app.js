@@ -21,6 +21,10 @@ const iniciarApp = () => {
    mostrarResumen();
    //Almacena el nombre del cliente
    nombreCita();
+   //Almacena la fecha de cita en el objeto
+   fechaCita()
+   //Deshabilitar dias pasados
+   deshabilitarFechaAnterior()
 }
 
 function mostrarSeccion() {
@@ -233,4 +237,32 @@ function mostrarAlerta(msj, tipo) {
    setTimeout(() => {
       alerta.remove();
    }, 3000);
+}
+
+function fechaCita(){
+   const fechaInput = document.querySelector('#fecha');
+   fechaInput.addEventListener('input', e =>{
+      const dia = new Date(e.target.value).getUTCDay();
+      if([0, 6].includes(dia)) {
+         e.preventDefault();
+         fechaInput.value = '';
+         mostrarAlerta("Los fines de semana no abrimos", 1);
+      }
+      else {
+         cita.fecha = fechaInput.value;
+         console.log(cita)
+      }
+   });
+}
+
+function deshabilitarFechaAnterior() {
+   const inputFecha = document.querySelector('#fecha');
+
+   const fechaAhora = new Date();
+   const year = fechaAhora.getFullYear();
+   const mes = fechaAhora.getMonth() + 1;
+   const dia = fechaAhora.getDate() + 1;
+   const fechaDeshabilitar = `${year}-${mes}-${dia}`;
+
+   inputFecha.min = fechaDeshabilitar;
 }
