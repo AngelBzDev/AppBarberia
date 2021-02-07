@@ -185,6 +185,11 @@ function mostrarResumen() {
    const {nombre, fecha, hora, servicios} = cita;
 
    const divResumen = document.querySelector('.contenido-resumen');
+   //Limpiar el HTML
+   while(divResumen.firstChild) {
+      divResumen.removeChild(divResumen.firstChild);
+   }
+
    //Validacion de objetos
    if(Object.values(cita).includes('')) {
       const noServicios = document.createElement('P');
@@ -192,10 +197,55 @@ function mostrarResumen() {
       noServicios.classList.add('invalidar-cita', 'text-center');
       //agregar a resumen div
       divResumen.appendChild(noServicios);
+      return;
    }
-   else{
-      console.log('Buenas guapo');
-   }
+   //Mostrar el resumen
+   const hedTit = document.createElement('H2');
+   hedTit.textContent = 'Resumen';
+   const nombreCita = document.createElement('P');
+   nombreCita.innerHTML = `<span>Nombre: </span>${nombre}`;
+   const fechaCita = document.createElement('P');
+   fechaCita.innerHTML = `<span>Fecha: </span>${fecha}`;
+   const horaCita = document.createElement('P');
+   horaCita.innerHTML = `<span>Hora: </span>${hora}`;
+
+   const servCita = document.createElement('DIV');
+   servCita.classList.add('resumen-servicios');
+
+   const hedSer = document.createElement('H3');
+   hedSer.textContent = 'Servicios seleccionados';
+   servCita.appendChild(hedSer);
+   let total = 0;
+   //Iterar sobre el arreglo de servicios
+   servicios.forEach(servicio => {
+
+      const {nombre, precio} = servicio;
+      const conServ = document.createElement('DIV');
+      conServ.classList.add('contenedor-servicio');
+
+      const textServ = document.createElement('P');
+      textServ.textContent = nombre;
+      const precServ = document.createElement('P');
+      precServ.classList.add('precio');
+      precServ.textContent = precio;
+      const tot = precio.split('$');
+      total += parseInt(tot[1].trim());
+      conServ.appendChild(textServ);
+      conServ.appendChild(precServ);
+      servCita.appendChild(conServ);
+   });
+
+   divResumen.appendChild(hedTit);
+   divResumen.appendChild(nombreCita);
+   divResumen.appendChild(fechaCita);
+   divResumen.appendChild(horaCita);
+   divResumen.appendChild(servCita);
+
+   const totalPaga = document.createElement('P');
+   totalPaga.classList.add('total');
+   totalPaga.innerHTML = `<span>Total: </span>$${total}`;
+   divResumen.appendChild(totalPaga);
+
 }
 
 function nombreCita(){
@@ -285,7 +335,7 @@ function horaCita() {
    inputHora.addEventListener('input', e => {
       const horaCita = e.target.value;
       const hora = horaCita.split(':');
-      if(hora < 9 || hora > 21) {
+      if(hora[0] < 9 || hora[0] > 21) {
          mostrarAlerta('La hora no es valida', 1);
          setTimeout(() => {
             inputHora.value = '';

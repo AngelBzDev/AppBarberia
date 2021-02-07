@@ -5,3 +5,28 @@
    padding: 1rem;
    border-radius: 1rem;
 }
+.contenido-resumen{
+   p{
+      span{
+         color: $azul;
+         font-weight: $bold;
+      }
+   }
+   .resumen-servicios{
+      h3{
+         margin-top: $separacion / 2;
+      }
+      .contenedor-servicio{
+         margin-bottom: 2rem;
+         border-bottom: 1px solid #413c3c;
+         .precio{
+            color: $azul;
+            font-size: 2.7rem;
+         }
+      }
+   }
+}
+.total{
+   text-align: right;
+   font-size: 3rem;
+}
