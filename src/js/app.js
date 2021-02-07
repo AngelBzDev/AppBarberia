@@ -22,9 +22,11 @@ const iniciarApp = () => {
    //Almacena el nombre del cliente
    nombreCita();
    //Almacena la fecha de cita en el objeto
-   fechaCita()
+   fechaCita();
    //Deshabilitar dias pasados
-   deshabilitarFechaAnterior()
+   deshabilitarFechaAnterior();
+   //Almacenar la hora en la cita
+   horaCita();
 }
 
 function mostrarSeccion() {
@@ -169,6 +171,7 @@ function botonesPaginado() {
    else if(pagina === 3) {
       pagA.classList.remove('ocultar');
       pagS.classList.add('ocultar');
+      mostrarResumen();
    }
    else{
       pagA.classList.remove('ocultar');
@@ -189,6 +192,9 @@ function mostrarResumen() {
       noServicios.classList.add('invalidar-cita', 'text-center');
       //agregar a resumen div
       divResumen.appendChild(noServicios);
+   }
+   else{
+      console.log('Buenas guapo');
    }
 }
 
@@ -256,13 +262,37 @@ function fechaCita(){
 }
 
 function deshabilitarFechaAnterior() {
-   const inputFecha = document.querySelector('#fecha');
 
-   const fechaAhora = new Date();
-   const year = fechaAhora.getFullYear();
-   const mes = fechaAhora.getMonth() + 1;
-   const dia = fechaAhora.getDate() + 1;
-   const fechaDeshabilitar = `${year}-${mes}-${dia}`;
+   const fecha = new Date();
+   const year = fecha.getFullYear();
+   const mes = fecha.getMonth() + 1;
+   const dia = fecha.getDate();
+   let m, d;
 
-   inputFecha.min = fechaDeshabilitar;
+   //ahora le agregas un 0 para el formato date
+   if (mes < 10) m = `0${mes}`;
+   else m = mes.toString;
+
+   if(dia < 10) d = `0${dia}`;
+   else d = dia.toString();
+
+   let diaDesh = `${year}-${m}-${d}`;
+   document.querySelector('#fecha').min = diaDesh;
+}
+
+function horaCita() {
+   const inputHora = document.querySelector('#hora');
+   inputHora.addEventListener('input', e => {
+      const horaCita = e.target.value;
+      const hora = horaCita.split(':');
+      if(hora < 9 || hora > 21) {
+         mostrarAlerta('La hora no es valida', 1);
+         setTimeout(() => {
+            inputHora.value = '';
+         }, 3000);
+      }
+      else {
+         cita.hora = horaCita;
+      }
+   });
 }
